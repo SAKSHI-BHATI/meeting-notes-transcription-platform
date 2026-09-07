@@ -3,7 +3,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from app.api import action_items, meetings
+from app.api import action_items, meetings, search
 from app.core.config import get_settings
 from app.db.base import Base
 from app.db.session import SessionLocal, engine
@@ -25,6 +25,7 @@ app = FastAPI(title=settings.app_name, version="1.0.0", openapi_url="/api/v1/ope
 app.add_middleware(CORSMiddleware, allow_origins=settings.origins, allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 app.include_router(meetings.router, prefix="/api/v1")
 app.include_router(action_items.router, prefix="/api/v1")
+app.include_router(search.router, prefix="/api/v1")
 
 @app.exception_handler(HTTPException)
 async def http_error_handler(_: Request, exc: HTTPException):

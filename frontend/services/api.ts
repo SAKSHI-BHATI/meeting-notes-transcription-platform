@@ -1,8 +1,9 @@
-import { ActionItem, Meeting, Segment, Summary, Topic } from "@/types";
+import { ActionItem, GlobalSearchResult, Meeting, Segment, Summary, Topic } from "@/types";
 const BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1";
 async function request<T>(path:string, init?:RequestInit):Promise<T> { const res=await fetch(`${BASE}${path}`,{...init,headers:{"Content-Type":"application/json",...(init?.headers ?? {})}}); if(!res.ok){const error=await res.json().catch(()=>null);throw new Error(error?.error?.message ?? "Something went wrong");} return res.status===204 ? undefined as T : res.json(); }
 export const api = {
  meetings:(params:URLSearchParams)=>request<{items:Meeting[];total:number;page:number;page_size:number}>(`/meetings?${params}`),
+ search:(query:string)=>request<{query:string;items:GlobalSearchResult[]}>(`/search?q=${encodeURIComponent(query)}`),
  meeting:(id:number)=>request<Meeting>(`/meetings/${id}`),
  transcript:(id:number,q?:string)=>request<{meeting_id:number;items:Segment[]}>(`/meetings/${id}/transcript${q ? `?q=${encodeURIComponent(q)}` : ""}`),
  summary:(id:number)=>request<Summary>(`/meetings/${id}/summary`), topics:(id:number)=>request<Topic[]>(`/meetings/${id}/topics`),

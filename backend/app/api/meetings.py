@@ -1,4 +1,5 @@
 import json
+from datetime import date
 from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
 from sqlalchemy.orm import Session
 from app.db.session import get_db
@@ -11,8 +12,10 @@ router = APIRouter(prefix="/meetings", tags=["meetings"])
 def serialize_meeting(m): return {"id": m.id, "title": m.title, "occurred_at": m.occurred_at, "duration_ms": m.duration_ms, "source": m.source, "participant_names": [x.participant.display_name for x in m.participants], "action_item_count": len(m.action_items) if hasattr(m, "action_items") else 0, "created_at": m.created_at, "updated_at": m.updated_at}
 
 @router.get("")
-def list_meetings(q: str | None = None, participant: str | None = None, page: int = Query(1, ge=1), page_size: int = Query(12, ge=1, le=100), sort: str = Query("recent", pattern="^(recent|oldest|title)$"), db: Session = Depends(get_db)):
-    items, total = MeetingService(db).list(query=q, participant=participant, page=page, page_size=page_size, sort=sort)
+def list_meetings(q: str | None = None, participant: str | None = None, date_from: date | None = None, date_to: date | None = None, page: int = Query(1, ge=1), page_size: int = Query(12, ge=1, le=100), sort: str = Query("recent", pattern="^(recent|oldest|title)$"), db: Session = Depends(get_db)):
+    if date_from and date_to and date_from > date_to:
+        raise HTTPException(422, detail={"code": "invalid_date_range", "message": "Date From must be on or before Date To."})
+    items, total = MeetingService(db).list(query=q, participant=participant, date_from=date_from, date_to=date_to, page=page, page_size=page_size, sort=sort)
     return {"items": [serialize_meeting(item) for item in items], "total": total, "page": page, "page_size": page_size}
 
 @router.post("", status_code=201)
