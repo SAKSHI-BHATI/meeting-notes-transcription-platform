@@ -4,8 +4,8 @@ Recall is an original Fireflies-inspired, full-stack meeting workspace built for
 
 ## Live Demo
 
-- [Open the deployed meeting workspace](https://meeting-notes-transcription-platform-o1sgevxkt-coders-58f9.vercel.app/meetings/1)
-- [Open the deployed frontend home page](https://meeting-notes-transcription-platform-o1sgevxkt-coders-58f9.vercel.app/)
+- [Open the deployed meeting workspace](https://meeting-notes-transcription-platform-pfn0z29cv-coders-58f9.vercel.app/meetings/1)
+- [Open the deployed frontend home page](https://meeting-notes-transcription-platform-pfn0z29cv-coders-58f9.vercel.app/)
 
 ## GitHub Repository
 
