@@ -18,6 +18,7 @@ Recall is an original Fireflies-inspired, full-stack meeting workspace built for
 - Structured AI-style notes: overview, key points, decisions, topics, and action items.
 - Persistent meeting and action-item CRUD backed by SQLite.
 - TXT, VTT, and JSON transcript ingestion with server-side validation.
+- Persistent light and dark workspace themes.
 
 ## Requirements analysis
 
