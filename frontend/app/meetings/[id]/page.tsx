@@ -1,0 +1,1 @@
+import {MeetingDetail} from "@/components/detail"; import {Sidebar} from "@/components/sidebar"; export default async function MeetingPage({params}:{params:Promise<{id:string}>}){const {id}=await params;return <div className="shell"><Sidebar/><MeetingDetail id={Number(id)}/></div>}

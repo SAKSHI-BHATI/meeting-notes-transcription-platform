@@ -1,0 +1,3 @@
+export function formatDuration(milliseconds:number){ const seconds=Math.floor(milliseconds/1000); return `${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,"0")}`; }
+export function formatDate(value:string){ return new Intl.DateTimeFormat("en",{month:"short",day:"numeric",year:"numeric"}).format(new Date(value)); }
+export function activeSegmentIndex(segments:{start_time_ms:number;end_time_ms:number}[], currentMs:number){ let low=0,high=segments.length-1,result=-1; while(low<=high){const mid=(low+high)>>1;if(segments[mid].start_time_ms<=currentMs){result=mid;low=mid+1}else high=mid-1;} return result>=0 && currentMs<=segments[result].end_time_ms ? result : result; }
